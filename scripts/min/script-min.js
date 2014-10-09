@@ -1,0 +1,1 @@
+"use strict";var app=app||{};window.onload=function(){console.log("window.onload called"),app.ship.drawLib=app.drawLib,app.blastem.drawLib=app.drawLib,app.blastem.utils=app.utils,app.Enemy.prototype.utils=app.utils,app.Emitter.utils=app.utils,app.blastem.app=app};

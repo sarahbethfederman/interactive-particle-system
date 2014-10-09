@@ -1,8 +1,9 @@
 @import "partials/normalize";
 
 body {
-  background-color: #000;
-  color: #FFF;
+  // background-color: #000;
+  // color: #FFF;
+  text-align:center;
 }
 
 canvas {
@@ -12,4 +13,5 @@ canvas {
   margin-right: auto;
   border: 1px solid #FFF;
   display: block;
+  background-color: #000;
 }
