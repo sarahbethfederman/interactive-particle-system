@@ -5,8 +5,9 @@ require(["emitter", "particle", "controller"], function(Emitter, Particle, contr
   console.log("main init started");
 
 
-
+  // init controller
   controller.init();
+  console.log(Emitter);
 
 
 });

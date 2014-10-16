@@ -1,4 +1,4 @@
-define(["emitter", "particle", "utils"], function(Emitter, Particle) {
+define(["emitter", "particle", "utils"], function(Emitter, Particle, utils) {
 
   // controller
   controller = {
@@ -10,11 +10,13 @@ define(["emitter", "particle", "utils"], function(Emitter, Particle) {
     'update': function() {
       this.updateQueue.forEach(function(update) {
         update();
+        console.log(update);
       });
     },
     'render': function() {
       this.renderQueue.forEach(function(render) {
-        render();
+        render(this.ctx);
+        console.log(render);
       });
     },
     'animate': function () {
@@ -29,6 +31,14 @@ define(["emitter", "particle", "utils"], function(Emitter, Particle) {
     },
     'init': function() {
       console.log("controller inited");
+      console.log(Emitter);
+
+      // hook up DOM elements
+      this.canvas = document.querySelector('canvas');
+      this.ctx = this.canvas.getContext('2D');
+
+      // start animation loop
+      this.animate();
     }
   };
 

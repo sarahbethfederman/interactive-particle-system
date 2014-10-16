@@ -1,8 +1,8 @@
-define(["controller"], function(controller) {
+define(["controller", "utils"], function(controller, utils) {
 
   // Particle Module
 
-  var Particle = (function () {
+  var Particle = function () {
 
     function Particle (args) {
       this.x = args.x;
@@ -15,7 +15,7 @@ define(["controller"], function(controller) {
     }
 
     Particle.prototype.isDead = function () {
-      if (this.lifeSpan > 0) {
+      if (this.age >= this.lifeSpan) {
         return false;
       }
       else {
@@ -33,12 +33,12 @@ define(["controller"], function(controller) {
 
     }
 
-    Particle.prototype.display = function () {
+    Particle.prototype.render = function (ctx) {
 
     }
 
     return Particle;
-  })();
+  }();
 
   return Particle;
 });
