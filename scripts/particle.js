@@ -1,41 +1,47 @@
-define(["controller", "utils"], function(controller, utils) {
+define(["vector"], function(Vector) {
 
   // Particle Module
 
+
+
   var Particle = function () {
 
-    function Particle (args) {
-      this.x = args.x;
-      this.y = args.y;
-      this.speed = args.speed || 1;
-      this.lifeSpan = args.lifeSpan;
-      this.acceleration = args.acceleration || 0;
-      this.direction = 0;
-      this.isDead = false;
+    // function Particle (point, velocity, acceleration) {
+    //   this.position = point || new Vector(0,0);
+    //   this.velocity = velocity || new Vector(0,0);
+    //   this.acceleration = acceleration || new Vector(0,0);
+    // }
+    //
+    //
+    // Particle.prototype.move = function() {
+    //   // Add the current Acceleration to the current Velocity
+    //   this.velocity.add(this.acceleration);
+    //
+    //   // Add our current Velocity to our position
+    //   console.log(this.position.x);
+    //   console.log(this.position.y);
+    //   this.position.add(this.velocity);
+    //
+    // }
+    //
+    //
+    // Particle.prototype.update = function() {
+    //
+    // }
+    //
+    // Particle.prototype.draw = function (ctx) {
+    //
+    // }
+    function Particle(point, velocity, acceleration) {
+      this.position = point || new Vector(0, 0);
+      this.velocity = velocity || new Vector(0, 0);
+      this.acceleration = acceleration || new Vector(0, 0);
     }
 
-    Particle.prototype.isDead = function () {
-      if (this.age >= this.lifeSpan) {
-        return false;
-      }
-      else {
-        return true;
-      }
-    }
-
-    Particle.prototype.applyForce = function(speed, direction, acceleration) {
-      this.speed = speed;
-      this.acceleration = acceleration;
-      this.direction = direction;
-    }
-
-    Particle.prototype.update = function() {
-
-    }
-
-    Particle.prototype.render = function (ctx) {
-
-    }
+    Particle.prototype.move = function () {
+      this.velocity.add(this.acceleration);
+      this.position.add(this.velocity);
+    };
 
     return Particle;
   }();
