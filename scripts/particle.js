@@ -1,4 +1,4 @@
-define(function() {
+define(["controller"], function(controller) {
 
   // Particle Module
 
@@ -34,7 +34,7 @@ define(function() {
     }
 
     Particle.prototype.display = function () {
-      
+
     }
 
     return Particle;

@@ -1,4 +1,5 @@
-define(["particle"], function (Particle) {
+define(["particle", "controller"], function (Particle, controller) {
+
   var Emitter = (function () {
     function Emitter(args) {
       this.x = args.x;
@@ -7,9 +8,27 @@ define(["particle"], function (Particle) {
       this.particleNum = args.particleNum;
     }
 
-    Emitter.prototype.init = function() {
+    Emitter.prototype.createParticles = function() {
+      var p;
+
+      for (var i = 0; i < this.particleNum; i++) {
+        p = new Particle();
+        this.particles.push(p);
+        controller.updateQueue.push(p.update);
+      }
 
     }
 
+    Emitter.prototype.draw = function() {
+
+    }
+
+    Emitter.prototype.update = function() {
+
+    }
+
+    return Emitter;
   })();
+
+  return Emitter;
 });

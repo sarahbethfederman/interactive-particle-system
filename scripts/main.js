@@ -1,6 +1,12 @@
-require(["emitter", "particle"], function(particle, emitter) {
+
+
+require(["emitter", "particle", "controller"], function(Emitter, Particle, controller) {
   // init function
   console.log("main init started");
-  app = {};
-  
+
+
+
+  controller.init();
+
+
 });
