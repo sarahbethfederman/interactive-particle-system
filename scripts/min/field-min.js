@@ -1,0 +1,1 @@
+define(function(){var t=function(){function t(t,s){this.position=t,this.setMass(s)}return t.prototype.setMass=function(t){this.mass=t||100,this.drawColor=0>t?"f00":"0F0"},t}();return t});

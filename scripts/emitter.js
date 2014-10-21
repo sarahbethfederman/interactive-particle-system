@@ -1,19 +1,21 @@
 // Emitter Module
-// This tutorial helped a lot: http://html5hub.com/build-a-javascript-particle-system
 
 define(["particle", "vector"], function (Particle, Vector) {
 
   var Emitter = function () {
-    function Emitter(ctx, point, velocity, spread) {
+    function Emitter(canvas, ctx, fields, point, velocity, spread) {
       this.position = point;  // Vector
       this.velocity = velocity;  // Vector
       this.spread = spread || Math.PI / 32;  // possible angles = velocity +/- spread
       this.drawColor = "#999";
       this.maxParticles = 20000;
-      this.emissionRate = 4;
-      this.particleSize = 2;
+      this.emissionRate = 2;
+      this.particleSize = 1;
       this.particles = [];
+      this.fields = fields;
       this.ctx = ctx;
+      this.boundsX = canvas.width;
+      this.boundsY = canvas.height;
     }
 
     Emitter.prototype.emitParticle = function() {
@@ -31,40 +33,25 @@ define(["particle", "vector"], function (Particle, Vector) {
 
       // return a new Particle
       return new Particle(position, velocity);
-    }
+    };
 
-
-    Emitter.prototype.update = function() {
-      var boundsX = 800;
-      var boundsY = 800;
-      var self = this;
-      // ADD PARTICLES
-      // if we're at our max, stop emitting.
-      if (self.particles.length > self.maxParticles) {
-        return;
-      }
-
-
-
-        // for [emissionRate], emit a particle
-        for (var j = 0; j < self.emissionRate; j++) {
-          self.particles.push(this.emitParticle());
-        }
-
-
-
-      // PLOT PARTICLES
-      var currentParticles = [];
+    Emitter.prototype.plotParticles = function() {
+      var currentParticles = [],
+          particle,
+          pos;
 
       for (var i = 0; i < this.particles.length; i++) {
-        var particle = this.particles[i];
-        var pos = particle.position;
+        particle = this.particles[i];
+        pos = particle.position;
 
 
         // If we're out of bounds, drop this particle and move on to the next
-        if (pos.x < 0 || pos.x > boundsX || pos.y < 0 || pos.y > boundsY) {
+        if (pos.x < 0 || pos.x > this.boundsX || pos.y < 0 || pos.y > this.boundsY) {
           continue;
         }
+
+        // Update velocities and accelerations to account for the fields
+        particle.submitToFields(this.fields);
 
         // Move our particles
         particle.move();
@@ -75,7 +62,23 @@ define(["particle", "vector"], function (Particle, Vector) {
 
       // Update our global particles, clearing room for old particles to be collected
       this.particles = currentParticles;
-    }
+    };
+
+
+    Emitter.prototype.update = function() {
+      // ADD PARTICLES
+      // if we're at our max, stop emitting.
+      if (this.particles.length > this.maxParticles) {
+        return;
+      }
+
+      // for [emissionRate], emit a particle
+      for (var j = 0; j < this.emissionRate; j++) {
+        this.particles.push(this.emitParticle());
+      }
+
+      this.plotParticles();
+    };
 
     Emitter.prototype.draw = function() {
 
@@ -89,7 +92,7 @@ define(["particle", "vector"], function (Particle, Vector) {
         // Draw a square at our position [positionSize] wide and tall
         this.ctx.fillRect(position.x, position.y, this.particleSize, this.particleSize);
       }
-    }
+    };
 
     return Emitter;
   }();
