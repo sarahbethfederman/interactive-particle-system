@@ -1,1 +1,1 @@
-define(function(){var t=function(){function t(t,s){this.position=t,this.setMass(s)}return t.prototype.setMass=function(t){this.mass=t||100,this.drawColor=0>t?"f00":"0F0"},t}();return t});
+"use strict";define(["utils"],function(t){var s=function(){function s(t,s,i){this.position=s,this.ctx=t,this.setMass(i),this.size=5}return s.prototype.setMass=function(t){this.mass=t||100,this.drawColor=0>t?"red":"green"},s.prototype.draw=function(){t.drawCircle(this.ctx,this)},s}();return s});

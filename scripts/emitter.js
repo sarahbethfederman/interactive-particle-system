@@ -1,4 +1,5 @@
 // Emitter Module
+"use strict";
 
 define(["particle", "vector"], function (Particle, Vector) {
 
@@ -8,9 +9,9 @@ define(["particle", "vector"], function (Particle, Vector) {
       this.velocity = velocity;  // Vector
       this.spread = spread || Math.PI / 32;  // possible angles = velocity +/- spread
       this.drawColor = "#999";
-      this.maxParticles = 20000;
+      this.maxParticles = 10000;
       this.emissionRate = 2;
-      this.particleSize = 1;
+      this.particleSize = 2;
       this.particles = [];
       this.fields = fields;
       this.ctx = ctx;
@@ -50,8 +51,11 @@ define(["particle", "vector"], function (Particle, Vector) {
           continue;
         }
 
+        // setTimeout(function(){
+          particle.submitToFields(this.fields);
+        // }, 1000);
         // Update velocities and accelerations to account for the fields
-        particle.submitToFields(this.fields);
+
 
         // Move our particles
         particle.move();
@@ -82,13 +86,13 @@ define(["particle", "vector"], function (Particle, Vector) {
 
     Emitter.prototype.draw = function() {
 
-      // Set the color of our particles
-      this.ctx.fillStyle = 'rgb(0,40,255)';
+
 
       // For each particle
       for (var i = 0; i < this.particles.length; i++) {
         var position = this.particles[i].position;
-
+        // Set the color of our particles
+        this.ctx.fillStyle = this.particles[i].drawColor;
         // Draw a square at our position [positionSize] wide and tall
         this.ctx.fillRect(position.x, position.y, this.particleSize, this.particleSize);
       }

@@ -1,5 +1,6 @@
 // Field module
 // creates a gravitational push OR pull that particle's respond to
+"use strict";
 
 define(["utils"], function(utils) {
   var Field = function() {
@@ -12,7 +13,7 @@ define(["utils"], function(utils) {
 
     Field.prototype.setMass = function(mass) {
       this.mass = mass || 100;
-      
+
       // if it attracts, draw green, if it repels draw red
       this.drawColor = mass < 0 ? "red" : "green";
     }

@@ -1,0 +1,1 @@
+"use strict";define(function(){var t=function(){function t(t,n){this.x=t||0,this.y=n||0}return t.prototype.add=function(t){this.x+=t.x,this.y+=t.y},t.prototype.getLength=function(){return Math.sqrt(this.x*this.x+this.y*this.y)},t.prototype.getAngle=function(){return Math.atan2(this.y,this.x)},t.fromAngle=function(n,i){return new t(i*Math.cos(n),i*Math.sin(n))},t}();return t});

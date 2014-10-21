@@ -1,3 +1,5 @@
+"use strict";
+
 define(function() {
   var utils = {
     	/*
@@ -42,7 +44,7 @@ define(function() {
         ctx.closePath();
         ctx.fill();
       }
-    }
+    };
 
   	// the "public interface" of this module
   	return utils;

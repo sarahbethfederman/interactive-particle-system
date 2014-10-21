@@ -1,5 +1,7 @@
 // Vector module
+// similar to a point
 
+"use strict";
 
 define(function() {
 

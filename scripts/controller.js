@@ -1,4 +1,5 @@
 // Application Controller module
+"use strict";
 
 define(["emitter", "vector", "field"], function(Emitter, Vector, Field) {
   var controller = {
@@ -8,7 +9,7 @@ define(["emitter", "vector", "field"], function(Emitter, Vector, Field) {
     'centerY': undefined,
     'emitters': [],
     'drawQueue': [],  // separate, store, queue each module's draw function so we can run them each frame
-    'updateQueue': [],  // separate the data and view queues (cuz MVC is cool and all?)
+    'updateQueue': [],  // separate the data and view queues (cuz MVC is cool and all)
     'fields': [],
     'initEmitters': function() {
       var e = new Emitter(this.canvas, this.ctx, this.fields, new Vector(this.centerX, this.centerY), Vector.fromAngle(0, 2), Math.PI);
@@ -17,16 +18,28 @@ define(["emitter", "vector", "field"], function(Emitter, Vector, Field) {
       this.updateQueue.push(e.update.bind(e));
     },
     'initFields': function() {
-      var f = new Field(this.ctx, new Vector(this.centerX - 100, this.centerY - 100), 900);
+      // var f = new Field(this.ctx, new Vector(this.centerX + 40, this.centerY + 40), -20);
+      // this.fields.push(f);
+      // this.drawQueue.push(f.draw.bind(f));
+      var f = new Field(this.ctx, new Vector(this.centerX + this.centerX/2, this.centerY), 900);
       this.fields.push(f);
       this.drawQueue.push(f.draw.bind(f));
+
+      f = new Field(this.ctx, new Vector(this.centerX - this.centerX/2, this.centerY), 900);
+      this.fields.push(f);
+      this.drawQueue.push(f.draw.bind(f));
+
     },
     'update': function() {
+      // run each module's update function, every frame
+      // update functions control data
       this.updateQueue.forEach(function(update) {
         update();
       });
     },
     'draw': function() {
+      // run each module's draw function, every frame
+      // draw functions render to canvas (no controller logic)
       this.drawQueue.forEach(function(draw) {
         draw();
       });
@@ -57,10 +70,11 @@ define(["emitter", "vector", "field"], function(Emitter, Vector, Field) {
 
       this.ctx = this.canvas.getContext('2d');
 
-
       // init particle system
       this.initEmitters();
       this.initFields();
+
+      // init event handlers
 
       // start animation loop
       this.animate();

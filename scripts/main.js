@@ -8,6 +8,7 @@
 
 // I adapted parts of this tutorial for a more modular structure
 // http://html5hub.com/build-a-javascript-particle-system
+"use strict";
 
 require(["controller"], function(controller) {
   // init function

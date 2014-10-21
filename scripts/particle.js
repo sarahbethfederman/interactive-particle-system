@@ -1,12 +1,14 @@
-define(["vector"], function(Vector) {
+// Particle Module
+"use strict";
 
-  // Particle Module
+define(["vector"], function(Vector) {
 
   var Particle = function () {
     function Particle(point, velocity, acceleration) {
       this.position = point || new Vector(0, 0);
       this.velocity = velocity || new Vector(0, 0);
       this.acceleration = acceleration || new Vector(0, 0);
+      this.drawColor = 'BLUE';
     }
 
     Particle.prototype.move = function () {
@@ -23,8 +25,14 @@ define(["vector"], function(Vector) {
         var field = fields[i];
 
         // find the distance between the particle and the field
+
         var vectorX = field.position.x - this.position.x;
         var vectorY = field.position.y - this.position.y;
+
+        // change the color
+        this.drawColor = 'rgb(0, 0,' + 255 + ')';
+        //console.log(this.drawColor);
+
 
         // calculate the force
         var force = field.mass / Math.pow(vectorX*vectorX+vectorY*vectorY, 1.5);

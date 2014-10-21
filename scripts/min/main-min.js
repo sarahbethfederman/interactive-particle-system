@@ -1,0 +1,1 @@
+"use strict";require(["controller"],function(i){console.log("main init started"),i.init()});
