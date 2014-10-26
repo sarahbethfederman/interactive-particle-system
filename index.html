@@ -7,6 +7,35 @@
 </head>
 <body>
   <h1>IGME 330: Project 1</h1>
+  <div class="interface">
+    <h2>Instructions:</h2>
+    <ol>
+      <li>Click to add a field</li>
+      <li>Right click to add an emitter</li>
+      <li>Click a field to delete it</li>
+    </ol>
+    <form>
+      <label>Max # of Fields:</label><br>
+      <input id="max-fields" type="radio" name="max-fields" value="2"><label for="2">2</label>
+      <input id="max-fields" type="radio" name="max-fields" value="3"><label for="3">3</label>
+      <input id="max-fields" type="radio" name="max-fields" value="4"><label for="4">4</label>
+      <input id="max-fields" type="radio" name="max-fields" value="5"><label for="5">5</label>
+      <br><br>
+
+      <label for="max-emitters">Max # of Emitters:</label><br>
+      <input id="emit-1" type="radio" name="max-emitters"><label for="emit-1">1</label>
+      <input id="emit-2" type="radio" name="max-emitters"><label for="emit-2">2</label>
+      <input id="emit-3" type="radio" name="max-emitters"><label for="emit-3">3</label>
+      <br><br>
+
+      <label for="max-particles">Max # of Particles:</label><br>
+      <label>0</label>
+      <input id="max-particles" type="range" name="max-particles"><label>15,000</label>
+
+    </form>
+
+    <audio controls loop></audio>
+  </div>
   <canvas width="800" height="800">Get a real browser!</canvas>
   <script data-main="scripts/main" src="scripts/require.js"></script>
 </body>

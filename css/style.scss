@@ -1,9 +1,14 @@
 @import "partials/normalize";
 
+*, html {
+  box-sizing: border-box;
+}
+
 body {
-  // background-color: #000;
-  // color: #FFF;
-  text-align:center;
+  background-color: #000;
+  color: #FFF;
+  height: 100%;
+  width: 100%;
 }
 
 canvas {
@@ -15,9 +20,32 @@ canvas {
   z-index: -1;
 }
 
-
 h1 {
   color: #FFF;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
+}
+
+ol {
+  padding-left: 20px;
+  margin-bottom: 60px;
+}
+li {
+  margin-bottom: 10px;
+}
+input[type="radio"] + label {
+  // labels next to radio buttons
+  margin-right: 15px;
+  margin-left: 5px;
+}
+
+.interface {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: auto;
+  width: 250px;
+  background-color: rgba(255,255,255,.2);
+  padding: 20px;
 }

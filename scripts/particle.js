@@ -9,11 +9,22 @@ define(["vector"], function(Vector) {
       this.velocity = velocity || new Vector(0, 0);
       this.acceleration = acceleration || new Vector(0, 0);
       this.drawColor = 'BLUE';
+      this.frameCount = 20;
+      this.color = []
     }
 
     Particle.prototype.move = function () {
+      this.frameCount++;
+      if (this.frameCount % 255 == 0) {
+        this.frameCount = 150;
+      }
+
       this.velocity.add(this.acceleration);
       this.position.add(this.velocity);
+
+
+      // change the color
+      this.drawColor = 'hsl('+ this.frameCount + ', 100%, 50%)';
     };
 
     Particle.prototype.submitToFields = function (fields) {
@@ -28,10 +39,6 @@ define(["vector"], function(Vector) {
 
         var vectorX = field.position.x - this.position.x;
         var vectorY = field.position.y - this.position.y;
-
-        // change the color
-        this.drawColor = 'rgb(0, 0,' + 255 + ')';
-        //console.log(this.drawColor);
 
 
         // calculate the force

@@ -28,10 +28,10 @@ define(function() {
 
     	// Function Name: getMouse(e)
     	// returns mouse position in local coordinate system of element
-    	'getMouse': function (e){
+    	'getMouse': function () {
     		var mouse = {};
-    		mouse.x = e.pageX - e.target.offsetLeft;
-    		mouse.y = e.pageY - e.target.offsetTop;
+        mouse.x = event.clientX + document.body.scrollLeft;
+        mouse.y = event.clientY + document.body.scrollTop;
     		return mouse;
     	},
 

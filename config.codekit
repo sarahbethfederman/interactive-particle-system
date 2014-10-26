@@ -64,6 +64,17 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/scripts\/audio.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/scripts\/audio.js",
+		"outputAbbreviatedPath": "\/scripts\/min\/audio-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 0
+		},
 	"\/scripts\/controller.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -108,6 +119,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
 		},
+	"\/scripts\/min\/audio-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/scripts\/min\/audio-min.js",
+		"outputAbbreviatedPath": "\/scripts\/min\/min\/audio-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/scripts\/min\/controller-min.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -141,6 +163,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/scripts\/min\/main-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/scripts\/min\/main-min.js",
+		"outputAbbreviatedPath": "\/scripts\/min\/min\/main-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/scripts\/min\/particle-min.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -169,6 +202,17 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/min\/utils-min.js",
 		"outputAbbreviatedPath": "\/scripts\/min\/min\/utils-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/scripts\/min\/vector-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/scripts\/min\/vector-min.js",
+		"outputAbbreviatedPath": "\/scripts\/min\/min\/vector-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
