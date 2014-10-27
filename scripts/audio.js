@@ -36,9 +36,11 @@ define(function() {
     },
     'init': function(audioElement) {
       console.log(audioElement);
-      this.play();
+
       // get reference to <audio> element on page
       this.audioElement = audioElement;
+      this.play();
+      
       this.audioElement.src = this.sound;
       this.audioElement.play();
 

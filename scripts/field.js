@@ -1,5 +1,5 @@
 // Field module
-// creates a gravitational push OR pull that particle's respond to
+// creates a gravitational push OR pull that particles respond to
 "use strict";
 
 define(["utils"], function(utils) {

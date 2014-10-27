@@ -10,13 +10,13 @@ define(["vector"], function(Vector) {
       this.acceleration = acceleration || new Vector(0, 0);
       this.drawColor = 'BLUE';
       this.frameCount = 20;
-      this.color = []
+      this.color = [];
     }
 
     Particle.prototype.move = function () {
       this.frameCount++;
       if (this.frameCount % 255 == 0) {
-        this.frameCount = 150;
+        this.frameCount = 0;
       }
 
       this.velocity.add(this.acceleration);
