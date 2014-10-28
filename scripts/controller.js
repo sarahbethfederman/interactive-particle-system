@@ -12,13 +12,19 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
     'updateQueue': [],  // separate the data and view queues (cuz MVC is cool and all)
     'fields': [],
     'maxFields': 3,
+    'audioData': undefined,
     'initEmitters': function() {
+      // Create the Particle Emitters
+
       var e = new Emitter(this.canvas, this.ctx, this.fields, new Vector(this.centerX, this.centerY), Vector.fromAngle(0, 2), Math.PI);
-      this.emitters.push(e);
-      this.drawQueue.push(e.draw.bind(e));
-      this.updateQueue.push(e.update.bind(e));
+
+      this.emitters.push(e);                    // add it to our list
+      this.drawQueue.push(e.draw.bind(e));      // add this emitter's draw function to the queue and bind itself to 'this'
+      this.updateQueue.push(e.update.bind(e));  // add this emitter's update function to the queue
     },
     'initFields': function() {
+      // Create the Fields
+
       var f = new Field(this.ctx, new Vector(this.centerX + this.centerX/2, this.centerY), 600);
       this.fields.push(f);
       this.drawQueue.push(f.draw.bind(f));
@@ -62,7 +68,8 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       });
 
       // on a right click, add an emitter
-      this.canvas.addEventListener("oncontextmenu", function() {
+      this.canvas.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
         console.log("right click");
         clickCount++;
         var mouse = utils.getMouse(this);
@@ -102,30 +109,36 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       window.requestAnimationFrame(this.animate.bind(this));
     },
     'init': function() {
-      console.log("controller inited");
+      // console.log("controller inited");
 
-      // hook up DOM elements
+      // HOOK UP DOM ELEMENTS
       this.canvas = document.querySelector('canvas');
+
+      // make the canvas fullscreen
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
 
+      // get the center of the canvas
       this.centerX = this.canvas.width/2;
       this.centerY = this.canvas.height/2;
 
       this.ctx = this.canvas.getContext('2d');
 
-      // init audio
+      // INIT AUDIO
       audio.init(document.querySelector('audio'));
+      this.audioData = audio.audioData;
+
+      // push audio's update function to the queue
       this.updateQueue.push(audio.update.bind(audio));
 
-      // init particle system
+      // INIT EVENTS
+      this.initEvents();
+
+      // INIT PARTICLE SYSTEM
       this.initEmitters();
       this.initFields();
 
-      // init event handlers
-      this.initEvents();
-
-      // start animation loop
+      // START ANIMATION LOOP
       this.animate();
     }
   };

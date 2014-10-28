@@ -1,10 +1,12 @@
 define(function() {
   var audio = {
-    'sample_num': 256,
+    'sampleNum': 256,
     'sound': 'assets/written-emotions.mp3',
     'audioElement': undefined,
     'ctx': undefined,
-    'play': function () {
+    'data': undefined,
+    'createNodes': function () {
+        // creates the audio context and hooks up the nodes
         var audioCtx,
             analyserNode,
             sourceNode;
@@ -16,7 +18,7 @@ define(function() {
         analyserNode = audioCtx.createAnalyser();
 
         // fft stands for Fast Fourier Transform
-        analyserNode.fftSize = this.sample_num;
+        analyserNode.fftSize = this.sampleNum;
 
         // this is where we hook up the <audio> element to the analyserNode
         sourceNode = audioCtx.createMediaElementSource(this.audioElement);
@@ -32,21 +34,25 @@ define(function() {
         return analyserNode;
     },
     'update': function() {
+      // create a new array of 8-bit integers (0-255)
+      this.data = new Uint8Array(this.sampleNum/2);
 
+      // populate the array with the frequency data
+      // notice these arrays can be passed "by reference"
+      this.analyserNode.getByteFrequencyData(this.data);
     },
     'init': function(audioElement) {
-      console.log(audioElement);
-
       // get reference to <audio> element on page
       this.audioElement = audioElement;
-      this.play();
-      
-      this.audioElement.src = this.sound;
-      this.audioElement.play();
+      this.analyserNode = this.createNodes();
 
-      // call our helper function and get an analyser node
+      // hook up the sound file to the audio element
+      this.audioElement.src = this.sound;
+
+      //play the sound
+      this.audioElement.play();
     }
-  } // end audio
+  }
 
   return audio;
 });
