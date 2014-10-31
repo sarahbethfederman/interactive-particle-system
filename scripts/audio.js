@@ -31,25 +31,31 @@ define(function() {
         sourceNode.connect(analyserNode);
         analyserNode.connect(audioCtx.destination);
 
+        // create a new array of 8-bit integers (0-255)
+        this.data = new Uint8Array(this.sampleNum/2);
+
         return analyserNode;
     },
-    'update': function() {
-      // create a new array of 8-bit integers (0-255)
-      this.data = new Uint8Array(this.sampleNum/2);
+    'getAudioData': function() {
+      // accessor method for getting audio data
 
-      // populate the array with the frequency data
-      // notice these arrays can be passed "by reference"
+      return this.data;
+    },
+    'update': function() {
+      // update the array with the frequency data
+
       this.analyserNode.getByteFrequencyData(this.data);
     },
     'init': function(audioElement) {
       // get reference to <audio> element on page
       this.audioElement = audioElement;
       this.analyserNode = this.createNodes();
+      this.analyserNode.getByteFrequencyData(this.data);
 
       // hook up the sound file to the audio element
       this.audioElement.src = this.sound;
 
-      //play the sound
+      // play the sound
       this.audioElement.play();
     }
   }

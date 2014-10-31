@@ -34,15 +34,23 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       this.drawQueue.push(f.draw.bind(f));
 
     },
+    'initAudio': function() {
+      audio.init(document.querySelector('audio'));
+
+      // push audio's update function to the queue
+      this.updateQueue.push(audio.update.bind(audio));
+
+      // get the audio data
+      this.audioData = audio.getAudioData();
+      console.log(this.audioData);
+    },
     'initEvents': function() {
       var self = this;
       var clickCount = 0;
 
       // on canvas click, add a field
       this.canvas.addEventListener("click", function() {
-
-        // if there is already a field, then delete it
-        if (self.fields.length >= self.maxFields) {
+        if (self.fields.length >= self.maxFields) {  // if there is already a field, then delete it
           self.fields.pop();
           self.drawQueue.pop();
         }
@@ -87,6 +95,7 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       this.updateQueue.forEach(function(update) {
         update();
       });
+      console.log(this.audioData);
     },
     'draw': function() {
       // run each module's draw function, every frame
@@ -125,11 +134,7 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       this.ctx = this.canvas.getContext('2d');
 
       // INIT AUDIO
-      audio.init(document.querySelector('audio'));
-      this.audioData = audio.audioData;
-
-      // push audio's update function to the queue
-      this.updateQueue.push(audio.update.bind(audio));
+      this.initAudio();
 
       // INIT EVENTS
       this.initEvents();
@@ -140,6 +145,7 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
 
       // START ANIMATION LOOP
       this.animate();
+
     }
   };
 
