@@ -1,8 +1,10 @@
 // Field module
 // creates a gravitational push OR pull that particles respond to
+// TO DO: control mass with audio data
+
 "use strict";
 
-define(["utils"], function(utils) {
+define(["audio", "utils"], function(audio, utils) {
   var Field = function() {
     function Field(ctx, point, mass) {
       this.position = point;
@@ -19,6 +21,7 @@ define(["utils"], function(utils) {
     }
 
     Field.prototype.draw = function () {
+      // draw a circle at the center of the field
       utils.drawCircle(this.ctx, this);
     }
 

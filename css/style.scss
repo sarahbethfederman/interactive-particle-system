@@ -9,6 +9,16 @@ body {
   color: #FFF;
   height: 100%;
   width: 100%;
+  font-size: 14px;
+}
+
+select {
+  float: right;
+}
+
+label {
+  padding-bottom: 10px;
+  display: inline-block;
 }
 
 canvas {
@@ -31,13 +41,9 @@ ol {
   padding-left: 20px;
   margin-bottom: 60px;
 }
+
 li {
   margin-bottom: 10px;
-}
-input[type="radio"] + label {
-  // labels next to radio buttons
-  margin-right: 15px;
-  margin-left: 5px;
 }
 
 audio {

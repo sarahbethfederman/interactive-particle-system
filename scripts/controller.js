@@ -12,6 +12,8 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
     'updateQueue': [],  // separate the data and view queues (cuz MVC is cool and all)
     'fields': [],
     'maxFields': 3,
+    'maxEmitters': 3,
+    'maxParticles': 15000,
     'audioData': undefined,
     'initEmitters': function() {
       // Create the Particle Emitters
@@ -24,7 +26,6 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
     },
     'initFields': function() {
       // Create the Fields
-
       var f = new Field(this.ctx, new Vector(this.centerX + this.centerX/2, this.centerY), 600);
       this.fields.push(f);
       this.drawQueue.push(f.draw.bind(f));
@@ -35,6 +36,7 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
 
     },
     'initAudio': function() {
+      // init the audio
       audio.init(document.querySelector('audio'));
 
       // push audio's update function to the queue
@@ -42,7 +44,6 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
 
       // get the audio data
       this.audioData = audio.getAudioData();
-      console.log(this.audioData);
     },
     'initEvents': function() {
       var self = this;

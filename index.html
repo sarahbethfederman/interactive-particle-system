@@ -15,22 +15,30 @@
       <li>Click a field to delete it</li>
     </ol>
     <form>
-      <label>Max # of Fields:</label><br>
-      <input id="max-fields" type="radio" name="max-fields" value="2"><label for="2">2</label>
-      <input id="max-fields" type="radio" name="max-fields" value="3"><label for="3">3</label>
-      <input id="max-fields" type="radio" name="max-fields" value="4"><label for="4">4</label>
-      <input id="max-fields" type="radio" name="max-fields" value="5"><label for="5">5</label>
+      <label for="max-fields">Max # of Fields:</label>
+      <select name="max-fields">
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+      </select>
       <br><br>
 
-      <label for="max-emitters">Max # of Emitters:</label><br>
-      <input id="emit-1" type="radio" name="max-emitters"><label for="emit-1">1</label>
-      <input id="emit-2" type="radio" name="max-emitters"><label for="emit-2">2</label>
-      <input id="emit-3" type="radio" name="max-emitters"><label for="emit-3">3</label>
+      <label for="max-emitters">Max # of Emitters:</label>
+      <select name="max-emitters">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
       <br><br>
 
       <label for="max-particles">Max # of Particles:</label><br>
-      <label>0</label>
-      <input id="max-particles" type="range" name="max-particles"><label>15,000</label>
+      <label>5000</label>
+      <input id="max-particles" type="range" min="5000" max="15000" name="max-particles"><label>15,000</label>
 
     </form>
     <p>By Sarah Federman, <br>&copy; October 2014</p>

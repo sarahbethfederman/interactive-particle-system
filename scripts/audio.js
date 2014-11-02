@@ -1,3 +1,5 @@
+"use strict";
+
 define(function() {
   var audio = {
     'sampleNum': 256,
@@ -6,6 +8,8 @@ define(function() {
     'ctx': undefined,
     'data': undefined,
     'createNodes': function () {
+        // most of this is taken from the ICE!
+
         // creates the audio context and hooks up the nodes
         var audioCtx,
             analyserNode,
@@ -23,11 +27,7 @@ define(function() {
         // this is where we hook up the <audio> element to the analyserNode
         sourceNode = audioCtx.createMediaElementSource(this.audioElement);
 
-        // connect source node directly to speakers (destination) so we can hear the unaltered source
-        // Source > Destination
-        sourceNode.connect(audioCtx.destination);
-
-        // this channel: source > delayNode > AnalyserNode > Destination
+        // this channel: source > AnalyserNode > Destination
         sourceNode.connect(analyserNode);
         analyserNode.connect(audioCtx.destination);
 
@@ -37,7 +37,7 @@ define(function() {
         return analyserNode;
     },
     'getAudioData': function() {
-      // accessor method for getting audio data
+      // accessor method for getting current audio data in other modules
 
       return this.data;
     },
@@ -49,6 +49,8 @@ define(function() {
     'init': function(audioElement) {
       // get reference to <audio> element on page
       this.audioElement = audioElement;
+
+      // hook up the web audio nodes!
       this.analyserNode = this.createNodes();
       this.analyserNode.getByteFrequencyData(this.data);
 

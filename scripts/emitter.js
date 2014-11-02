@@ -19,6 +19,18 @@ define(["particle", "vector"], function (Particle, Vector) {
       this.boundsY = canvas.height;
     }
 
+    Emitter.prototype.changeParticleNum = function(maxParticles) {
+      // Change the max particles this emitter can emit
+      this.maxParticles = maxParticles;
+
+      // shorten the particle array
+      if (this.particles.length > maxParticles) {
+        for (var i = 0; i < (this.particles.length - maxParticles); i++) {
+          this.particles.unshift();
+        }
+      }
+    }
+
     Emitter.prototype.emitParticle = function() {
       // Use an angle randomize over the spread so we have more of a "spray"
       var angle = this.velocity.getAngle() + this.spread - (Math.random() * this.spread * 2);

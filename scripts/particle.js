@@ -1,4 +1,5 @@
 // Particle Module
+// TO DO: add lifespan
 "use strict";
 
 define(["vector"], function(Vector) {
@@ -16,7 +17,7 @@ define(["vector"], function(Vector) {
     Particle.prototype.move = function () {
       this.frameCount++;
       if (this.frameCount % 255 == 0) {
-        this.frameCount = 0;
+        this.frameCount = 150;
       }
 
       this.velocity.add(this.acceleration);
