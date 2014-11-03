@@ -11,6 +11,11 @@ body {
   width: 100%;
   font-size: 14px;
 }
+a, a:visited {
+  color: lightblue;
+  text-decoration: none;
+  font-style: italic;
+}
 
 select {
   float: right;
@@ -19,6 +24,11 @@ select {
 label {
   padding-bottom: 10px;
   display: inline-block;
+}
+
+button {
+  color: #000;
+  margin: 10px 0;
 }
 
 canvas {
@@ -60,7 +70,7 @@ audio {
   width: 250px;
   background-color: rgba(255,255,255,.2);
   padding: 20px;
-  p {
+  p:not(.footnote) {
     margin-top: 40px;
     font-size: .9rem;
   }

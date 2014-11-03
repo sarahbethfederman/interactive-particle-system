@@ -12,12 +12,10 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
     'updateQueue': [],  // separate the data and view queues (cuz MVC is cool and all)
     'fields': [],
     'maxFields': 3,
-    'maxEmitters': 3,
-    'maxParticles': 15000,
+    'maxEmitters': 2,
     'audioData': undefined,
     'initEmitters': function() {
       // Create the Particle Emitters
-
       var e = new Emitter(this.canvas, this.ctx, this.fields, new Vector(this.centerX, this.centerY), Vector.fromAngle(0, 2), Math.PI);
 
       this.emitters.push(e);                    // add it to our list
@@ -33,7 +31,6 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       f = new Field(this.ctx, new Vector(this.centerX - this.centerX/2, this.centerY), 600);
       this.fields.push(f);
       this.drawQueue.push(f.draw.bind(f));
-
     },
     'initAudio': function() {
       // init the audio
@@ -49,11 +46,15 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       var self = this;
       var clickCount = 0;
 
-      // on canvas click, add a field
+      // ON CANVAS CLICK, ADD A FIELD
       this.canvas.addEventListener("click", function() {
-        if (self.fields.length >= self.maxFields) {  // if there is already a field, then delete it
-          self.fields.pop();
-          self.drawQueue.pop();
+
+        // if we are at our max field #
+        if (self.fields.length > self.maxFields) {
+          // delete the oldest one
+          self.fields.shift();
+          // and delete its draw method
+          // FIX THIS
         }
 
         // increment the count
@@ -76,19 +77,93 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
         self.drawQueue.push(f.draw.bind(f));
       });
 
-      // on a right click, add an emitter
+      // ON A RIGHT CLICK, ADD AN EMITTER
       this.canvas.addEventListener("contextmenu", function(e) {
         e.preventDefault();
-        console.log("right click");
-        clickCount++;
-        var mouse = utils.getMouse(this);
-        var e = new Emitter(self.canvas, self.ctx, self.fields, new Vector(mouse.x, mouse.y),Vector.fromAngle(0, 2), Math.PI);
-        self.emitters.push(e);
-        self.drawQueue.push(e.draw.bind(e));
-        self.updateQueue.push(e.update.bind(e));
+
+        if (self.emitters.length < self.maxEmitters) {
+          var mouse = utils.getMouse(this);
+          var e = new Emitter(self.canvas, self.ctx, self.fields, new Vector(mouse.x, mouse.y),Vector.fromAngle(Math.random(), Math.random()), utils.getRandom(0, .5));
+          self.emitters.push(e);
+          self.drawQueue.push(e.draw.bind(e));
+          self.updateQueue.push(e.update.bind(e));
+        }
 
         return false;
       });
+
+      // HOOK UP THE MAX EMITTERS SELECT
+      document.querySelector('select[name="max-emitters"]').onchange = function() {
+        self.maxEmitters = this.value;
+        // TODO: delete the extras & remove its draw func!!
+      }
+
+      // HOOK UP THE MAX FIELDS SELECT
+      document.querySelector('select[name="max-fields"]').onchange = function() {
+        self.maxField = this.value;
+        // TODO: delete the extras & remove its draw func!!
+      }
+
+      // HOOK UP THE MAX PARTICLE SLIDE EFFECTOR
+      document.querySelector('#max-particles').onchange = function() {
+        var slider = this;
+
+        // change the emission rate
+        if (slider.value >= 5000 && slider.value < 8000) {
+          var rate = 1;
+        }
+        else if (slider.value >= 8000 && slider.value < 10000) {
+          var rate = 2;
+        }
+        else if (slider.value >= 10000 && slider.value < 12000) {
+          var rate = 3;
+        }
+        else if (slider.value >= 1200 && slider.value <= 15000) {
+          var rate = 4;
+        }
+
+        // for each emitter, change the particle number and pass in the value
+        self.emitters.forEach(function(el) {
+          el.changeParticleNum(slider.value, rate);
+        });
+      }
+
+      // HOOK UP THE CLEAR FIELDS BUTTON
+      document.querySelector('#clear-fields').onclick = function(e) {
+        e.preventDefault();
+
+        // for each field
+        for (var i = 0; i < self.fields.length; i++) {
+          // remove it from the array
+          self.fields.pop();
+          // remove its draw function
+          // TO DO!!
+        }
+      }
+      document.querySelector('#clear-emitters').onclick = function(e) {
+        e.preventDefault();
+
+        // for each emitter
+        for (var i = 0; i < self.emitters.length; i++) {
+          // remove it from the array
+
+          // remove its draw function
+          // TO DO!!
+          // remove its update function
+          // TO DO!!
+        }
+        self.emitters = [];
+      }
+
+      document.querySelector('#reset').onclick = function(e) {
+        // keep the page from refreshing!
+        e.preventDefault();
+
+        self.emitters = [];
+        self.fields = [];
+        self.drawQueue = [];
+        self.updateQueue = [];
+      }
     },
     'update': function() {
       // run each module's update function, every frame
@@ -96,7 +171,6 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       this.updateQueue.forEach(function(update) {
         update();
       });
-      console.log(this.audioData);
     },
     'draw': function() {
       // run each module's draw function, every frame
@@ -137,9 +211,6 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       // INIT AUDIO
       this.initAudio();
 
-      // INIT EVENTS
-      this.initEvents();
-
       // INIT PARTICLE SYSTEM
       this.initEmitters();
       this.initFields();
@@ -147,6 +218,8 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       // START ANIMATION LOOP
       this.animate();
 
+      // INIT EVENTS
+      this.initEvents();
     }
   };
 

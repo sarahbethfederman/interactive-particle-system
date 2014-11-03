@@ -2,23 +2,23 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Project 1: Interactive Particle System</title>
+  <title>Project 1: Interactive Particle Playground</title>
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-  <h1>IGME 330: Project 1</h1>
+  <h1>Interactive Musical Particle Playground</h1>
   <div class="interface">
     <h2>Instructions:</h2>
     <ol>
       <li>Click to add a field</li>
       <li>Right click to add an emitter</li>
-      <li>Click a field to delete it</li>
+      <li>Press the clear button to start over</li>
     </ol>
     <form>
       <label for="max-fields">Max # of Fields:</label>
       <select name="max-fields">
         <option value="2">2</option>
-        <option value="3">3</option>
+        <option selected value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
         <option value="6">6</option>
@@ -30,7 +30,7 @@
       <label for="max-emitters">Max # of Emitters:</label>
       <select name="max-emitters">
         <option value="1">1</option>
-        <option value="2">2</option>
+        <option selected value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
       </select>
@@ -40,8 +40,13 @@
       <label>5000</label>
       <input id="max-particles" type="range" min="5000" max="15000" name="max-particles"><label>15,000</label>
 
+      <button id="clear-fields">Clear Fields</button>
+      <button id="clear-emitters">Clear Emitters</button><br>
+      <button id="reset">Reset</button>
+
     </form>
     <p>By Sarah Federman, <br>&copy; October 2014</p>
+    <p class="footnote">View the project on <a href="https://github.com/sarahbethfederman/interactive-particle-system">Github</a></p>
   </div>
   <audio controls loop></audio>
   <canvas>Your browser doesn't support HTML5 canvas, please update.</canvas>

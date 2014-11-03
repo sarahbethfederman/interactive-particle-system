@@ -9,7 +9,7 @@ define(["particle", "vector"], function (Particle, Vector) {
       this.velocity = velocity;  // Vector
       this.spread = spread || Math.PI / 32;  // possible angles = velocity +/- spread
       this.drawColor = "#999";
-      this.maxParticles = 15000;
+      this.maxParticles = 10000;
       this.emissionRate = 2;
       this.particleSize = 2;
       this.particles = [];
@@ -19,12 +19,18 @@ define(["particle", "vector"], function (Particle, Vector) {
       this.boundsY = canvas.height;
     }
 
-    Emitter.prototype.changeParticleNum = function(maxParticles) {
+    Emitter.prototype.changeParticleNum = function(maxParticles, emissionRate) {
       // Change the max particles this emitter can emit
       this.maxParticles = maxParticles;
+      // If provided, change the emission rate
+      if (emissionRate) {
+        this.emissionRate = emissionRate;
+      }
 
-      // shorten the particle array
+
+      // if its too long, shorten the particle array
       if (this.particles.length > maxParticles) {
+        // shorten by the difference between current and max
         for (var i = 0; i < (this.particles.length - maxParticles); i++) {
           this.particles.unshift();
         }
@@ -82,7 +88,9 @@ define(["particle", "vector"], function (Particle, Vector) {
       // ADD PARTICLES
       // if we're at our max, stop emitting.
       if (this.particles.length > this.maxParticles) {
-        return;
+        for (var i = 0; i < 1000; i++) {
+          this.particles.shift();
+        }
       }
 
       // for [emissionRate], emit a particle
@@ -99,7 +107,7 @@ define(["particle", "vector"], function (Particle, Vector) {
         var position = this.particles[i].position;
         // Set the color of our particles
         this.ctx.fillStyle = this.particles[i].drawColor;
-      //  console.log(this.particles[i].drawColor);
+
         // Draw a square at our position [positionSize] wide and tall
         this.ctx.fillRect(position.x, position.y, this.particleSize, this.particleSize);
       }
