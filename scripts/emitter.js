@@ -4,19 +4,20 @@
 define(["particle", "vector"], function (Particle, Vector) {
 
   var Emitter = function () {
-    function Emitter(canvas, ctx, fields, point, velocity, spread) {
+    function Emitter(controller, point, velocity, spread) {
       this.position = point;  // Vector
       this.velocity = velocity;  // Vector
       this.spread = spread || Math.PI / 32;  // possible angles = velocity +/- spread
       this.drawColor = "#999";
-      this.maxParticles = 10000;
+      this.maxParticles = 4000;
       this.emissionRate = 2;
       this.particleSize = 2;
+      this.controller = controller;
       this.particles = [];
-      this.fields = fields;
-      this.ctx = ctx;
-      this.boundsX = canvas.width;
-      this.boundsY = canvas.height;
+      this.fields = controller.fields;
+      this.ctx = controller.ctx;
+      this.boundsX = controller.canvas.width;
+      this.boundsY = controller.canvas.height;
     }
 
     Emitter.prototype.changeParticleNum = function(maxParticles, emissionRate) {
@@ -32,7 +33,7 @@ define(["particle", "vector"], function (Particle, Vector) {
       if (this.particles.length > maxParticles) {
         // shorten by the difference between current and max
         for (var i = 0; i < (this.particles.length - maxParticles); i++) {
-          this.particles.unshift();
+          this.particles.shift();
         }
       }
     }
@@ -57,12 +58,12 @@ define(["particle", "vector"], function (Particle, Vector) {
     Emitter.prototype.plotParticles = function() {
       var currentParticles = [],
           particle,
+          self = this,
           pos;
 
       for (var i = 0; i < this.particles.length; i++) {
         particle = this.particles[i];
         pos = particle.position;
-
 
         // If we're out of bounds, drop this particle and move on to the next
         if (pos.x < 0 || pos.x > this.boundsX || pos.y < 0 || pos.y > this.boundsY) {
@@ -70,7 +71,7 @@ define(["particle", "vector"], function (Particle, Vector) {
         }
 
         // Update velocities and accelerations to account for the fields
-        particle.submitToFields(this.fields);
+        particle.submitToFields(self.controller.getFields());
 
         // Move our particles
         particle.move();
@@ -88,7 +89,7 @@ define(["particle", "vector"], function (Particle, Vector) {
       // ADD PARTICLES
       // if we're at our max, stop emitting.
       if (this.particles.length > this.maxParticles) {
-        for (var i = 0; i < 1000; i++) {
+        for (var i = 0; i < 2000; i++) {
           this.particles.shift();
         }
       }

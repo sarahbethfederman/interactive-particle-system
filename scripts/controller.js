@@ -16,21 +16,17 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
     'audioData': undefined,
     'initEmitters': function() {
       // Create the Particle Emitters
-      var e = new Emitter(this.canvas, this.ctx, this.fields, new Vector(this.centerX, this.centerY), Vector.fromAngle(0, 2), Math.PI);
+      var e = new Emitter(this, new Vector(this.centerX, this.centerY), Vector.fromAngle(0, 2), Math.PI);
 
-      this.emitters.push(e);                    // add it to our list
-      this.drawQueue.push(e.draw.bind(e));      // add this emitter's draw function to the queue and bind itself to 'this'
-      this.updateQueue.push(e.update.bind(e));  // add this emitter's update function to the queue
+      this.addEmitter(e);
     },
     'initFields': function() {
       // Create the Fields
       var f = new Field(this.ctx, new Vector(this.centerX + this.centerX/2, this.centerY), 600);
-      this.fields.push(f);
-      this.drawQueue.push(f.draw.bind(f));
+      this.addField(f);
 
       f = new Field(this.ctx, new Vector(this.centerX - this.centerX/2, this.centerY), 600);
-      this.fields.push(f);
-      this.drawQueue.push(f.draw.bind(f));
+      this.addField(f);
     },
     'initAudio': function() {
       // init the audio
@@ -73,21 +69,15 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
         // make a field at mouse position
         var mouse = utils.getMouse(this);
         var f = new Field(self.ctx, new Vector(mouse.x, mouse.y), mass);
-        self.fields.push(f);
-        self.drawQueue.push(f.draw.bind(f));
+        self.addField(f);
       });
 
       // ON A RIGHT CLICK, ADD AN EMITTER
       this.canvas.addEventListener("contextmenu", function(e) {
         e.preventDefault();
-
-        if (self.emitters.length < self.maxEmitters) {
           var mouse = utils.getMouse(this);
-          var e = new Emitter(self.canvas, self.ctx, self.fields, new Vector(mouse.x, mouse.y),Vector.fromAngle(Math.random(), Math.random()), utils.getRandom(0, .5));
-          self.emitters.push(e);
-          self.drawQueue.push(e.draw.bind(e));
-          self.updateQueue.push(e.update.bind(e));
-        }
+          var e = new Emitter(self, new Vector(mouse.x, mouse.y),Vector.fromAngle(Math.random(), Math.random()), utils.getRandom(0, .5));
+          self.addEmitter(e);
 
         return false;
       });
@@ -100,7 +90,9 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
 
       // HOOK UP THE MAX FIELDS SELECT
       document.querySelector('select[name="max-fields"]').onchange = function() {
-        self.maxField = this.value;
+        self.maxFields = this.value;
+
+
         // TODO: delete the extras & remove its draw func!!
       }
 
@@ -109,16 +101,16 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
         var slider = this;
 
         // change the emission rate
-        if (slider.value >= 5000 && slider.value < 8000) {
+        if (slider.value >= 1000 && slider.value < 2500) {
           var rate = 1;
         }
-        else if (slider.value >= 8000 && slider.value < 10000) {
+        else if (slider.value >= 2500 && slider.value < 4000) {
           var rate = 2;
         }
-        else if (slider.value >= 10000 && slider.value < 12000) {
+        else if (slider.value >= 4000 && slider.value < 6000) {
           var rate = 3;
         }
-        else if (slider.value >= 1200 && slider.value <= 15000) {
+        else if (slider.value >= 600 && slider.value <= 8000) {
           var rate = 4;
         }
 
@@ -132,26 +124,24 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       document.querySelector('#clear-fields').onclick = function(e) {
         e.preventDefault();
 
-        // for each field
+        // for each field, delete its draw
         for (var i = 0; i < self.fields.length; i++) {
-          // remove it from the array
-          self.fields.pop();
-          // remove its draw function
-          // TO DO!!
+          self.drawQueue[self.fields[i].drawIndex] = null;
         }
+        // clear the fields array
+        self.fields = [];
       }
       document.querySelector('#clear-emitters').onclick = function(e) {
         e.preventDefault();
 
         // for each emitter
         for (var i = 0; i < self.emitters.length; i++) {
-          // remove it from the array
-
-          // remove its draw function
-          // TO DO!!
-          // remove its update function
-          // TO DO!!
+          // remove its fns from the queue
+          self.updateQueue[self.emitters[i].updateIndex] = null;
+          self.drawQueue[self.emitters[i].drawIndex] = null;
         }
+
+        // clear the emitters array
         self.emitters = [];
       }
 
@@ -165,18 +155,71 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
         self.updateQueue = [];
       }
     },
+    'addField': function(field) {
+      this.drawQueue.push(field.draw.bind(field));
+
+      // save the indices in update array
+      field.drawIndex = this.drawQueue.length - 1;
+
+      // push it to the fields storage
+      this.fields.push(field);
+
+      // if it goes over, delete the oldest one
+      if (this.fields.length > this.maxFields) {
+        // set the draw to null
+        this.drawQueue[this.fields[0].drawIndex] = null;
+
+        // shift it out of the fields storage
+        this.fields.shift();
+      }
+    },
+    'getFields': function() {
+      // accessor method to update field reference
+      return this.fields;
+
+    },
+    'addEmitter': function(emit) {
+      this.drawQueue.push(emit.draw.bind(emit));
+      this.updateQueue.push(emit.update.bind(emit));
+
+      // save the indices in update array
+      emit.drawIndex = this.drawQueue.length - 1;
+      console.log(emit.drawIndex);
+
+      emit.updateIndex = this.updateQueue.length - 1;
+      console.log(emit.updateIndex);
+
+      // push it to the emitters storage
+      this.emitters.push(emit);
+
+      // if it goes over, delete the oldest one
+      if (this.emitters.length > this.maxEmitters) {
+        // set the update&draw to null
+        this.updateQueue[this.emitters[0].updateIndex] = null;
+        this.drawQueue[this.emitters[0].drawIndex] = null;
+
+        // shift it out of the emitters
+        this.emitters.shift();
+      }
+
+      console.log(emit);
+    },
     'update': function() {
       // run each module's update function, every frame
       // update functions control data
       this.updateQueue.forEach(function(update) {
-        update();
+        if (update) {
+          update();
+        }
       });
     },
     'draw': function() {
       // run each module's draw function, every frame
-      // draw functions render to canvas (no controller logic)
+      // draw functions render to canvas (seperate from update logic)
       this.drawQueue.forEach(function(draw) {
-        draw();
+        if (draw) {
+          draw();
+        }
       });
     },
     'animate': function () {
