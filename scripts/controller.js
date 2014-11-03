@@ -75,9 +75,10 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       // ON A RIGHT CLICK, ADD AN EMITTER
       this.canvas.addEventListener("contextmenu", function(e) {
         e.preventDefault();
-          var mouse = utils.getMouse(this);
-          var e = new Emitter(self, new Vector(mouse.x, mouse.y),Vector.fromAngle(Math.random(), Math.random()), utils.getRandom(0, .5));
-          self.addEmitter(e);
+
+        var mouse = utils.getMouse(this);
+        var e = new Emitter(self, new Vector(mouse.x, mouse.y),Vector.fromAngle(Math.random(), Math.random()), utils.getRandom(0, .5));
+        self.addEmitter(e);
 
         return false;
       });
@@ -85,15 +86,34 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       // HOOK UP THE MAX EMITTERS SELECT
       document.querySelector('select[name="max-emitters"]').onchange = function() {
         self.maxEmitters = this.value;
-        // TODO: delete the extras & remove its draw func!!
+
+        // if it goes over, delete all the extras
+        if (self.emitters.length > self.maxEmitters) {
+          for (var i = 0; i < (self.emitters.length - self.maxEmitters); i++) {
+            // set the update&draw to null
+            self.updateQueue[self.emitters[i].updateIndex] = null;
+            self.drawQueue[self.emitters[i].drawIndex] = null;
+
+            // shift it out of the emitters
+            self.emitters.shift();
+          }
+        }
       }
 
       // HOOK UP THE MAX FIELDS SELECT
       document.querySelector('select[name="max-fields"]').onchange = function() {
         self.maxFields = this.value;
 
+        // if it goes over, delete all of the extras
+        if (self.fields.length > self.maxFields) {
+          for (var i=0; i < (self.fields.length - self.maxFields); i++) {
+            // set the draw to null
+            self.drawQueue[self.fields[i].drawIndex] = null;
 
-        // TODO: delete the extras & remove its draw func!!
+            // shift it out of the fields storage
+            self.fields.shift();
+          }
+        }
       }
 
       // HOOK UP THE MAX PARTICLE SLIDE EFFECTOR
@@ -131,6 +151,8 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
         // clear the fields array
         self.fields = [];
       }
+
+      // HOOK UP THE CLEAR EMITTERS BUTTON
       document.querySelector('#clear-emitters').onclick = function(e) {
         e.preventDefault();
 
@@ -176,7 +198,6 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
     'getFields': function() {
       // accessor method to update field reference
       return this.fields;
-
     },
     'addEmitter': function(emit) {
       this.drawQueue.push(emit.draw.bind(emit));
