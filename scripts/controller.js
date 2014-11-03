@@ -125,13 +125,13 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
           var rate = 1;
         }
         else if (slider.value >= 2500 && slider.value < 4000) {
-          var rate = 2;
+          var rate = 1;
         }
         else if (slider.value >= 4000 && slider.value < 6000) {
-          var rate = 3;
+          var rate = 2;
         }
-        else if (slider.value >= 600 && slider.value <= 8000) {
-          var rate = 4;
+        else if (slider.value >= 6000 && slider.value <= 8000) {
+          var rate = 3;
         }
 
         // for each emitter, change the particle number and pass in the value
