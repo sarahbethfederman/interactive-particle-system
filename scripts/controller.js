@@ -121,16 +121,16 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
         var slider = this;
 
         // change the emission rate
-        if (slider.value >= 1000 && slider.value < 2500) {
+        if (slider.value >= 1000 && slider.value < 2000) {
           var rate = 1;
         }
-        else if (slider.value >= 2500 && slider.value < 4000) {
+        else if (slider.value >= 2000 && slider.value < 3000) {
           var rate = 1;
         }
-        else if (slider.value >= 4000 && slider.value < 6000) {
+        else if (slider.value >= 3000 && slider.value < 4000) {
           var rate = 2;
         }
-        else if (slider.value >= 6000 && slider.value <= 8000) {
+        else if (slider.value >= 4000 && slider.value <= 5000) {
           var rate = 3;
         }
 
@@ -222,14 +222,12 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
         // shift it out of the emitters
         this.emitters.shift();
       }
-
-      console.log(emit);
     },
     'update': function() {
       // run each module's update function, every frame
       // update functions control data
       this.updateQueue.forEach(function(update) {
-        if (update) {
+        if (update) {   // skip null values
           update();
         }
       });
@@ -238,7 +236,7 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       // run each module's draw function, every frame
       // draw functions render to canvas (seperate from update logic)
       this.drawQueue.forEach(function(draw) {
-        if (draw) {
+        if (draw) {   // skip null values (dropped vals)
           draw();
         }
       });

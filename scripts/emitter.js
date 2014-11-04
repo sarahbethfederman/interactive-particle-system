@@ -9,7 +9,7 @@ define(["particle", "vector"], function (Particle, Vector) {
       this.velocity = velocity;  // Vector
       this.spread = spread || Math.PI / 32;  // possible angles = velocity +/- spread
       this.drawColor = "#999";
-      this.maxParticles = 4000;
+      this.maxParticles = 2500;
       this.emissionRate = 1;
       this.particleSize = 2;
       this.controller = controller;
