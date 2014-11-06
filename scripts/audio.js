@@ -1,6 +1,6 @@
 "use strict";
 
-define(function() {
+define(['field'], function(field) {
   var audio = {
     'sampleNum': 256,
     'sound': 'assets/written-emotions.mp3',
@@ -45,6 +45,23 @@ define(function() {
       // update the array with the frequency data
 
       this.analyserNode.getByteFrequencyData(this.data);
+
+    },
+    'getNumber': function() {
+      var self = this;
+      var total = 0;
+
+      // add up all the values in the array
+      for (var i = 0; i < self.data.length; i++) {
+        total = total + self.data[i];
+      }
+
+      // then take the average
+      total = total/255;
+
+      total = total/5;
+
+      return total;
     },
     'init': function(audioElement) {
       // get reference to <audio> element on page
@@ -59,6 +76,9 @@ define(function() {
 
       // play the sound
       this.audioElement.play();
+
+      // start the getNumber
+      this.getNumber();
     }
   }
 

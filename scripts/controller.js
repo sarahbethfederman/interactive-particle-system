@@ -22,13 +22,14 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
     },
     'initFields': function() {
       // Create the Fields
-      var f = new Field(this.ctx, new Vector(this.centerX + this.centerX/2, this.centerY), 600);
+      var f = new Field(this.ctx, new Vector(this.centerX + this.centerX/2, this.centerY), 300);
       this.addField(f);
 
-      f = new Field(this.ctx, new Vector(this.centerX - this.centerX/2, this.centerY), 600);
+      f = new Field(this.ctx, new Vector(this.centerX - this.centerX/2, this.centerY), 300);
       this.addField(f);
     },
     'initAudio': function() {
+      var self = this;
       // init the audio
       audio.init(document.querySelector('audio'));
 
@@ -37,6 +38,29 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
 
       // get the audio data
       this.audioData = audio.getAudioData();
+
+      // run the audio analyser
+      var audioNumber = audio.getNumber();
+
+      // do this once a second
+      setInterval(function() {
+        audioNumber = audio.getNumber();
+        console.log(audioNumber);
+        for (var i = 0; i < self.fields.length; i++) {
+          // effect the field mass with the audio
+          self.fields[i].effectMass(audioNumber);
+        }
+        setTimeout(function() {
+          for (var i = 0; i < self.fields.length; i++) {
+            // and reset it back to its original mass
+            // this makes the effect more dramatic
+            self.fields[i].resetMass(audioNumber);
+          }
+        }, 500);
+      }, 1000);
+
+      // effect the fields
+
     },
     'initEvents': function() {
       var self = this;

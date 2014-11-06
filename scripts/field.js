@@ -10,6 +10,7 @@ define(["audio", "utils"], function(audio, utils) {
       this.position = point;
       this.ctx = ctx;
       this.setMass(mass);
+      this.baseMass = mass;
       this.size = 5;
     }
 
@@ -18,6 +19,15 @@ define(["audio", "utils"], function(audio, utils) {
 
       // if it attracts, draw green, if it repels draw red
       this.drawColor = mass < 0 ? "red" : "green";
+    }
+
+    Field.prototype.resetMass = function () {
+      this.mass = this.baseMass + (effector*5);
+    }
+
+    Field.prototype.effectMass = function(effector) {
+      // effect the field by a factor of change
+      this.setMass(this.baseMass * effector);
     }
 
     Field.prototype.draw = function () {
