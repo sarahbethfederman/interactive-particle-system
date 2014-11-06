@@ -21,8 +21,8 @@ define(["audio", "utils"], function(audio, utils) {
       this.drawColor = mass < 0 ? "red" : "green";
     }
 
-    Field.prototype.resetMass = function () {
-      this.mass = this.baseMass + (effector*5);
+    Field.prototype.resetMass = function (effector) {
+      this.mass = this.baseMass * (effector/2);
     }
 
     Field.prototype.effectMass = function(effector) {
