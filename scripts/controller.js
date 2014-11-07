@@ -50,13 +50,13 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
           // effect the field mass with the audio
           self.fields[i].effectMass(audioNumber);
         }
-        setTimeout(function() {
-          for (var i = 0; i < self.fields.length; i++) {
-            // and reset it back to its original mass
-            // this makes the effect more dramatic
-            self.fields[i].resetMass(audioNumber);
-          }
-        }, 500);
+        // setTimeout(function() {
+        //   for (var i = 0; i < self.fields.length; i++) {
+        //     // and reset it back to its original mass
+        //     // this makes the effect more dramatic
+        //     self.fields[i].resetMass(audioNumber);
+        //   }
+        // }, 500);
       }, 1000);
 
       // effect the fields
