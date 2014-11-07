@@ -12,7 +12,7 @@
 
 require(["controller"], function(controller) {
   // init function
-  console.log("main init started");
+  //console.log("main init started");
 
 
   // init controller

@@ -45,7 +45,7 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       // do this once a second
       setInterval(function() {
         audioNumber = audio.getNumber();
-        console.log(audioNumber);
+        //console.log(audioNumber);
         for (var i = 0; i < self.fields.length; i++) {
           // effect the field mass with the audio
           self.fields[i].effectMass(audioNumber);
@@ -232,7 +232,7 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
       console.log(emit.drawIndex);
 
       emit.updateIndex = this.updateQueue.length - 1;
-      console.log(emit.updateIndex);
+      //console.log(emit.updateIndex);
 
       // push it to the emitters storage
       this.emitters.push(emit);
