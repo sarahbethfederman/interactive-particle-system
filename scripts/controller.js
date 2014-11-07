@@ -229,7 +229,7 @@ define(["emitter", "vector", "field", "utils", "audio"], function(Emitter, Vecto
 
       // save the indices in update array
       emit.drawIndex = this.drawQueue.length - 1;
-      console.log(emit.drawIndex);
+      //console.log(emit.drawIndex);
 
       emit.updateIndex = this.updateQueue.length - 1;
       //console.log(emit.updateIndex);
