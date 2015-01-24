@@ -1,5 +1,4 @@
 // Interactive Particle System by Sarah Federman
-// IGME 330: Web II, Project 1
 
 // Credits:
 
