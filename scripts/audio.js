@@ -8,7 +8,6 @@ define(['field'], function(field) {
     'ctx': undefined,
     'data': undefined,
     'createNodes': function () {
-        // most of this is taken from the ICE!
 
         // creates the audio context and hooks up the nodes
         var audioCtx,
